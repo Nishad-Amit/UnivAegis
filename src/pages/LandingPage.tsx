@@ -77,7 +77,7 @@ const LandingPage: React.FC = () => {
     
     try {
       // Use the backend API instead of Firebase
-      const response = await fetch('http://localhost:5001/api/demo-requests', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/demo-requests`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 
 // MongoDB connection
-const MONGODB_URI = 'mongodb+srv://nishadamit19_db_user:yZkOt4I3AXOizlMe@cluster0.3shak4p.mongodb.net/UnivAegis?retryWrites=true&w=majority';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://nishadamit19_db_user:yZkOt4I3AXOizlMe@cluster0.3shak4p.mongodb.net/UnivAegis?retryWrites=true&w=majority';
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,

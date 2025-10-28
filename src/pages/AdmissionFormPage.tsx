@@ -139,7 +139,7 @@ const AdmissionFormPage: React.FC = () => {
     
     try {
       // Send to your backend API
-      const response = await fetch('http://localhost:5001/api/admission-form', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admission-form`, {
         method: 'POST',
         body: formData
       })
