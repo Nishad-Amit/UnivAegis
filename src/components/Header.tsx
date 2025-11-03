@@ -93,13 +93,6 @@ const Header: React.FC<HeaderProps> = ({ variant = 'light' }) => {
                       <UserCircle className="w-4 h-4 mr-2" />
                       Dashboard
                     </Link>
-                    <Link
-                      to="/settings"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      <Settings className="w-4 h-4 mr-2" />
-                      Settings
-                    </Link>
                     <button
                       onClick={handleLogout}
                       className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
@@ -109,6 +102,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'light' }) => {
                     </button>
                   </div>
                 )}
+
               </div>
             ) : (
               <>
@@ -158,13 +152,6 @@ const Header: React.FC<HeaderProps> = ({ variant = 'light' }) => {
                     >
                       Dashboard
                     </Link>
-                    <Link
-                      to="/settings"
-                      className={`${linkColor} transition-colors mb-2 block`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Settings
-                    </Link>
                     <button
                       onClick={() => {
                         handleLogout()
@@ -194,6 +181,7 @@ const Header: React.FC<HeaderProps> = ({ variant = 'light' }) => {
                   </>
                 )}
               </div>
+
             </div>
           </motion.div>
         )}
