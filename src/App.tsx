@@ -20,6 +20,12 @@ import StudentDashboardPage from '@/pages/StudentDashboardPage'
 import AdmissionFormPage from './pages/AdmissionFormPage'
 import NotFoundPage from './pages/NotFoundPage'
 import ProtectedRoute from './components/ProtectedRoute'
+// Legal pages
+import CancellationRefundPage from './pages/CancellationRefundPage'
+import TermsConditionsPage from './pages/TermsConditionsPage'
+import ShippingDeliveryPage from './pages/ShippingDeliveryPage'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import LegalContactPage from './pages/LegalContactPage'
 
 function App() {
   return (
@@ -40,6 +46,12 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/student-dashboard" element={<StudentDashboardPage />} />
+          {/* Legal pages */}
+          <Route path="/cancellation-refund" element={<CancellationRefundPage />} />
+          <Route path="/terms-conditions" element={<TermsConditionsPage />} />
+          <Route path="/shipping-delivery" element={<ShippingDeliveryPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/legal-contact" element={<LegalContactPage />} />
           <Route path="/dashboard" element={
             <ProtectedRoute>
               <DashboardPage />

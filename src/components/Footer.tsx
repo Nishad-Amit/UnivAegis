@@ -58,14 +58,16 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Legal */}
           <div>
-            <h3 className="font-semibold text-base mb-3">Contact</h3>
-            <div className="space-y-2">
-              <p className="text-gray-400 text-xs">support@aiadmissionsbot.com</p>
-              <p className="text-gray-400 text-xs">+91 98765 43210</p>
-              <p className="text-gray-400 text-xs">New Delhi, India</p>
-            </div>
+            <h3 className="font-semibold text-base mb-3">Legal</h3>
+            <ul className="space-y-1">
+              <li><Link to="/cancellation-refund" className="text-gray-400 hover:text-white transition-colors text-xs">Cancellation & Refund</Link></li>
+              <li><Link to="/terms-conditions" className="text-gray-400 hover:text-white transition-colors text-xs">Terms & Conditions</Link></li>
+              <li><Link to="/shipping-delivery" className="text-gray-400 hover:text-white transition-colors text-xs">Shipping & Delivery</Link></li>
+              <li><Link to="/privacy-policy" className="text-gray-400 hover:text-white transition-colors text-xs">Privacy Policy</Link></li>
+              <li><Link to="/legal-contact" className="text-gray-400 hover:text-white transition-colors text-xs">Contact Information</Link></li>
+            </ul>
           </div>
         </div>
 

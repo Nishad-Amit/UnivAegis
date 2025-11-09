@@ -43,7 +43,7 @@ const ContactPage: React.FC = () => {
     
     try {
       // Use the backend API instead of Firebase
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contact-messages`, {
+      const response = await fetch('http://localhost:5001/api/contact-messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ const ContactPage: React.FC = () => {
     {
       icon: Mail,
       title: "Email Us",
-      content: "support@aiadmissionsbot.com",
+      content: "contact@univaegis.com",
       description: "For general inquiries and support"
     },
     {
@@ -105,19 +105,19 @@ const ContactPage: React.FC = () => {
       icon: Users,
       title: "Sales Inquiries",
       description: "Learn about our platform and pricing",
-      email: "sales@aiadmissionsbot.com"
+      email: "contact@univaegis.com"
     },
     {
       icon: MessageSquare,
       title: "Technical Support",
       description: "Get help with implementation and integration",
-      email: "tech-support@aiadmissionsbot.com"
+      email: "contact@univaegis.com"
     },
     {
       icon: Headphones,
       title: "Customer Success",
       description: "Ongoing support for existing clients",
-      email: "success@aiadmissionsbot.com"
+      email: "contact@univaegis.com"
     }
   ]
 
