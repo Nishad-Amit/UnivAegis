@@ -89,7 +89,7 @@ const ContactPage: React.FC = () => {
     {
       icon: Phone,
       title: "Call Us",
-      content: "+91 98765 43210",
+      content: "+91 7985162538",
       description: "Monday to Friday, 9AM to 6PM IST"
     },
     {
