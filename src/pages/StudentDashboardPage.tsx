@@ -215,19 +215,22 @@ const StudentDashboardPage: React.FC = () => {
   
   // Save and reset - for saving incomplete applications
   const saveAndReset = () => {
-    // Save current application regardless of status
-    const savedApp: Application = {
-      ...application,
-      status: 'COMPLETED' as ApplicationStatus,
-      finalState: application.eligibilityResult === 'ELIGIBLE' 
-        ? 'UNDER_REVIEW' 
-        : application.eligibilityResult === 'NOT_ELIGIBLE' 
-          ? 'NOT_ELIGIBLE' 
-          : 'NOT_ELIGIBLE' // Default to NOT_ELIGIBLE if no eligibility result
-    };
-    
-    // Add to completed applications
-    setCompletedApplications(prev => [...prev, savedApp]);
+    // Only add to completed applications if the current application is not already completed
+    if (application.status !== 'COMPLETED') {
+      // Save current application regardless of status
+      const savedApp: Application = {
+        ...application,
+        status: 'COMPLETED' as ApplicationStatus,
+        finalState: application.eligibilityResult === 'ELIGIBLE' 
+          ? 'UNDER_REVIEW' 
+          : application.eligibilityResult === 'NOT_ELIGIBLE' 
+            ? 'NOT_ELIGIBLE' 
+            : 'NOT_ELIGIBLE' // Default to NOT_ELIGIBLE if no eligibility result
+      };
+      
+      // Add to completed applications
+      setCompletedApplications(prev => [...prev, savedApp]);
+    }
     
     // Reset to initial state to show Application 1 but keep completed applications
     setApplication({
@@ -636,15 +639,15 @@ const StudentDashboardPage: React.FC = () => {
           {isUploading && (
             <div className="py-12 text-center">
               <Loader className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-6" />
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Extracting your data through OCR...</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Extracting your data...</h2>
               <p className="text-gray-600">
-                Reading your PDF through optical character recognition and preparing your profile (about 20 seconds).
+                Preparing your profile (about 20 seconds).
               </p>
             </div>
           )}
           
           {/* 3️⃣ University Selection + Eligibility Criteria */}
-          {application.status === 'ELIGIBLE' && !isCheckingEligibility && (
+          {application.status === 'ELIGIBLE' && !isCheckingEligibility && !isFinancialChecking && (
             <div className="py-4">
               <h1 className="text-2xl font-bold text-gray-900 mb-6">Check your eligibility</h1>
               
@@ -724,7 +727,7 @@ const StudentDashboardPage: React.FC = () => {
           )}
           
           {/* Eligibility Result */}
-          {application.status === 'ELIGIBLE' && application.eligibilityResult && !isCheckingEligibility && (
+          {application.status === 'ELIGIBLE' && application.eligibilityResult && !isCheckingEligibility && !isFinancialChecking && (
             <div className="py-8 text-center">
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-gray-900 mb-4">
@@ -743,7 +746,7 @@ const StudentDashboardPage: React.FC = () => {
           )}
           
           {/* Not Eligible Result */}
-          {application.status === 'DOCUMENT_UPLOADED' && application.eligibilityResult === 'NOT_ELIGIBLE' && !isCheckingEligibility && (
+          {application.status === 'DOCUMENT_UPLOADED' && application.eligibilityResult === 'NOT_ELIGIBLE' && !isCheckingEligibility && !isFinancialChecking && (
             <div className="py-8 text-center">
               <X className="w-16 h-16 text-red-500 mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-gray-900 mb-4">
@@ -763,7 +766,7 @@ const StudentDashboardPage: React.FC = () => {
           )}
           
           {/* 4️⃣ Financial Verification Check */}
-          {application.status === 'FINANCIAL_OK' && !isFinancialChecking && (
+          {application.status === 'FINANCIAL_OK' && !isFinancialChecking && !isFraudChecking && (
             <div className="py-8 text-center">
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Financial verification complete</h2>
