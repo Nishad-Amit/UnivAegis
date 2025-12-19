@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/auth-store';
-import univAegisLogo from '@/assets/univAegislogo.png';
+import univAegisLogo from '@/assets/logo2.png';
 import Footer from '@/components/Footer';
 
 // Define application status types

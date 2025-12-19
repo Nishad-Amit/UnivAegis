@@ -5,7 +5,7 @@ import {
   Twitter,
   Instagram
 } from 'lucide-react'
-import univAegisLogo from '../assets/univAegislogo.png'
+import univAegisLogo from '../assets/logo2.png'
 
 const Footer: React.FC = () => {
   return (

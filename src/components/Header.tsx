@@ -12,7 +12,7 @@ import {
   Settings,
   UserCircle
 } from 'lucide-react'
-import univAegisLogo from '../assets/univAegislogo.png'
+import univAegisLogo from '../assets/logo2.png'
 import { useAuthStore } from '@/store/auth-store'
 
 interface HeaderProps {
