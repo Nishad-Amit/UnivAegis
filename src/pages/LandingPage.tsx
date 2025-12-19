@@ -77,7 +77,7 @@ const LandingPage: React.FC = () => {
     
     try {
       // Use the backend API instead of Firebase
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/demo-requests`, {
+      const response = await fetch('http://localhost:5001/api/demo-requests', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -157,25 +157,25 @@ const LandingPage: React.FC = () => {
     {
       step: '3',
       title: 'AI Processing',
-      description: 'Automated verification and data extraction from academic documents',
+      description: 'Cut manual review work by 70% with intelligent AI automation that instantly verifies and extracts academic data.',
       icon: Brain
     },
     {
       step: '4',
-      title: 'Dashboard Review',
-      description: 'Admissions staff review AI-generated insights and recommendations',
+      title: 'Verification',
+      description: 'Admissions staff review AI-verified insights and eligibility results in one dashboard.',
       icon: BarChart3
     },
     {
       step: '5',
-      title: 'Automation',
-      description: 'Eliminate 70% of manual review work with intelligent automation',
+      title: 'Decision Support',
+      description: 'AI-driven insights empower admissions teams to make faster, smarter decisions.',
       icon: Zap
     },
     {
       step: '6',
-      title: 'Decision Support',
-      description: 'AI-powered insights empower staff to make confident decisions',
+      title: 'Dashboard Review',
+      description: 'Gain complete visibility into applications with real-time AI insights in one dashboard.',
       icon: Award
     }
   ]
@@ -376,7 +376,7 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-20 bg-white">
+      <section id="how-it-works" className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -393,7 +393,7 @@ const LandingPage: React.FC = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {workflowSteps.map((step, index) => {
               const Icon = step.icon
               return (
@@ -403,25 +403,32 @@ const LandingPage: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="relative flex"
+                  className="relative group"
                 >
-                  <div className="bg-white p-8 rounded-xl shadow-lg text-center flex flex-col flex-1">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <Icon className="w-8 h-8 text-white" />
+                  <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col border border-gray-100">
+                    <div className="flex items-center mb-6">
+                      <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span className="text-white font-bold text-lg">{step.step}</span>
+                      </div>
+                      <div className="ml-4 w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <Icon className="w-5 h-5 text-blue-600" />
+                      </div>
                     </div>
-                    <div className="text-3xl font-bold text-blue-600 mb-4 text-center">{step.step}</div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-4 flex-1 text-center">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4">
                       {step.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed flex-1 text-center">
+                    <p className="text-gray-600 leading-relaxed flex-1">
                       {step.description}
                     </p>
+                    {index < workflowSteps.length - 1 && (
+                      <div className="mt-6 pt-6 border-t border-gray-100">
+                        <div className="flex items-center text-blue-600 font-medium">
+                          <span>Next: {workflowSteps[index + 1].title}</span>
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </div>
+                      </div>
+                    )}
                   </div>
-
-                  {/* Connection Line */}
-                  {index < workflowSteps.length - 1 && (
-                    <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 transform -translate-y-1/2"></div>
-                  )}
                 </motion.div>
               )
             })}

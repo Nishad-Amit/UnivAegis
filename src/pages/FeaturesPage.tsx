@@ -34,12 +34,24 @@ import Footer from '../components/Footer'
 const FeaturesPage: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0)
 
-  const workflowSteps = [
+  interface WorkflowStep {
+    id: number;
+    title: string;
+    icon: React.ComponentType<any>;
+    description: string;
+    details: string[];
+    outcome: string;
+    riskLevels?: string[];
+    decisions?: string[];
+    actions?: string[];
+  }
+
+  const workflowSteps: WorkflowStep[] = [
     {
-      id: 2,
-      title: "Student Uploads Application",
+      id: 1,
+      title: "Document Upload",
       icon: Upload,
-      description: "Through university portal or CRM integrations",
+      description: "Students submit applications with documents through your portal",
       details: [
         "Uploads: transcripts, SOP, financial docs, ID, test scores",
         "File formats: PDF, JPEG, DOCX, etc."
@@ -47,10 +59,10 @@ const FeaturesPage: React.FC = () => {
       outcome: "Secure data upload → Sent to AI pipeline instantly"
     },
     {
-      id: 1,
-      title: "Eligibility & Program Fit Engine",
+      id: 2,
+      title: "Eligibility Check",
       icon: CheckCircle,
-      description: "Matches student profile (GPA, IELTS, etc.) to university program requirements",
+      description: "System automatically checks student profile against university program requirements",
       details: [
         "Eligibility Score",
         "Program Fit Score",
@@ -60,9 +72,9 @@ const FeaturesPage: React.FC = () => {
     },
     {
       id: 3,
-      title: "Document AI & Data Extraction",
+      title: "AI Processing",
       icon: Shield,
-      description: "OCR reads and parses academic + financial documents",
+      description: "Cut manual review work by 70% with intelligent AI automation that instantly verifies and extracts academic data.",
       details: [
         "Document processing (e.g. bank letters, transcripts)",
         "Data extraction and structuring",
@@ -85,9 +97,9 @@ const FeaturesPage: React.FC = () => {
     },
     {
       id: 5,
-      title: "Dashboard + CRM Integration",
+      title: "Verification",
       icon: BarChart3,
-      description: "Admissions officer sees:",
+      description: "Admissions staff review AI-verified insights and eligibility results in one dashboard.",
       details: [
         "Full AI Report (SOP score, eligibility, document analysis)",
         "Flagged documents",
@@ -96,6 +108,33 @@ const FeaturesPage: React.FC = () => {
       outcome: "Results auto-sync to StudyLink / Slate / Salesforce",
       actions: ["Accept", "Review", "Reject"],
       decisions: ["Accept", "Conditional Review", "Manual Review", "Reject"]
+    },
+    {
+      id: 6,
+      title: "Decision Support",
+      icon: Award,
+      description: "AI-driven insights empower admissions teams to make faster, smarter decisions.",
+      details: [
+        "Comprehensive fraud risk scoring and verification",
+        "Detailed eligibility analysis with program matching",
+        "Actionable insights for borderline applications",
+        "Data-driven recommendations for admissions decisions"
+      ],
+      outcome: "Empower admissions staff with AI-powered insights to make faster, more confident decisions."
+    },
+    {
+      id: 7,
+      title: "Dashboard Review",
+      icon: Globe,
+      description: "Gain complete visibility into applications with real-time AI insights in one dashboard.",
+      details: [
+        "API triggers verification for each new submission → returns decision instantly",
+        "Webhooks update the CRM record with:",
+        "Verification Status",
+        "Eligibility Result",
+        "AI Decision Tag"
+      ],
+      outcome: "Real-time sync ensures university teams don't leave their CRM. UnivAegis functions as a plug-and-play verification layer — no migration or disruption needed."
     }
   ]
 
@@ -170,7 +209,7 @@ const FeaturesPage: React.FC = () => {
       </section>
 
       {/* Step-by-Step Workflow */}
-      <section id="workflow" className="py-20 bg-gray-50">
+      <section id="workflow" className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -194,27 +233,36 @@ const FeaturesPage: React.FC = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="bg-white p-8 rounded-xl shadow-lg"
+              className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100"
             >
-              <div className="space-y-8">
+              <div className="space-y-6">
                 {workflowSteps.map((step, index) => {
                   const Icon = step.icon
                   return (
                     <div 
                       key={step.id}
-                      className={`flex items-start space-x-4 p-4 rounded-lg cursor-pointer transition-all ${
-                        activeStep === index ? 'bg-blue-50 border-l-4 border-blue-600' : 'hover:bg-gray-50'
+                      className={`flex items-start space-x-4 p-6 rounded-xl transition-all duration-300 cursor-pointer ${
+                        activeStep === index 
+                          ? 'bg-blue-50 border-l-4 border-blue-600 shadow-sm' 
+                          : 'hover:bg-gray-50 border-l-4 border-transparent'
                       }`}
                       onClick={() => setActiveStep(index)}
                     >
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        activeStep === index ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                        activeStep === index 
+                          ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white' 
+                          : 'bg-gray-100 text-gray-600'
                       }`}>
                         <Icon className="w-6 h-6" />
                       </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 mb-1">{step.title}</h3>
-                        <p className="text-gray-600 text-sm">{step.description}</p>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-bold text-gray-900 text-lg">{step.title}</h3>
+                          <span className="text-sm font-semibold text-blue-600 bg-blue-100 px-2 py-1 rounded-lg">
+                            Step {index + 1}
+                          </span>
+                        </div>
+                        <p className="text-gray-600 mt-2">{step.description}</p>
                       </div>
                     </div>
                   )
@@ -228,43 +276,63 @@ const FeaturesPage: React.FC = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="bg-white p-8 rounded-xl shadow-lg"
+              className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100"
             >
               {workflowSteps[activeStep] && (
                 <div>
-                  <div className="flex items-center space-x-3 mb-6">
-                    <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                      {React.createElement(workflowSteps[activeStep].icon, { className: "w-6 h-6" })}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8">
+                    <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center text-white flex-shrink-0">
+                      {React.createElement(workflowSteps[activeStep].icon, { className: "w-8 h-8" })}
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900">
-                      {workflowSteps[activeStep].title}
-                    </h3>
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-sm font-semibold text-blue-600 bg-blue-100 px-2 py-1 rounded-lg">
+                          Step {activeStep + 1}
+                        </span>
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        {workflowSteps[activeStep].title}
+                      </h3>
+                    </div>
                   </div>
                   
-                  <p className="text-gray-600 mb-6">
+                  <p className="text-gray-700 text-lg mb-8 leading-relaxed">
                     {workflowSteps[activeStep].description}
                   </p>
                   
-                  <div className="space-y-3 mb-6">
-                    {workflowSteps[activeStep].details?.map((detail, index) => (
-                      <div key={index} className="flex items-start space-x-2">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-gray-700">{detail}</p>
+                  {workflowSteps[activeStep].details && (
+                    <div className="mb-8">
+                      <h4 className="font-bold text-gray-900 text-lg mb-4">What's Included:</h4>
+                      <div className="space-y-3">
+                        {workflowSteps[activeStep].details.map((detail, index) => (
+                          <div key={index} className="flex items-start space-x-3">
+                            <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                            <p className="text-gray-700">{detail}</p>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  )}
                   
-                  <div className="bg-blue-50 p-4 rounded-lg mb-6">
-                    <h4 className="font-semibold text-gray-900 mb-2">What Happens:</h4>
-                    <p className="text-gray-700">{workflowSteps[activeStep].outcome}</p>
+                  <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl mb-8 border border-blue-100">
+                    <h4 className="font-bold text-gray-900 mb-3 flex items-center">
+                      <CheckCircle className="w-5 h-5 text-blue-600 mr-2" />
+                      Key Outcome
+                    </h4>
+                    <p className="text-gray-700">
+                      {workflowSteps[activeStep].outcome}
+                    </p>
                   </div>
                   
                   {workflowSteps[activeStep].riskLevels && (
-                    <div className="mb-6">
-                      <h4 className="font-semibold text-gray-900 mb-2">Flag Risk Levels:</h4>
-                      <div className="flex space-x-4">
+                    <div className="mb-8">
+                      <h4 className="font-bold text-gray-900 mb-4">Risk Assessment Levels:</h4>
+                      <div className="flex flex-wrap gap-3">
                         {workflowSteps[activeStep].riskLevels.map((level, index) => (
-                          <span key={index} className="px-3 py-1 rounded-full text-sm font-medium">
+                          <span 
+                            key={index} 
+                            className="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-200"
+                          >
                             {level}
                           </span>
                         ))}
@@ -273,11 +341,14 @@ const FeaturesPage: React.FC = () => {
                   )}
                   
                   {workflowSteps[activeStep].decisions && (
-                    <div className="mb-6">
-                      <h4 className="font-semibold text-gray-900 mb-2">Final AI Decision Recommendation:</h4>
-                      <div className="flex flex-wrap gap-2">
+                    <div className="mb-8">
+                      <h4 className="font-bold text-gray-900 mb-4">AI Decision Recommendations:</h4>
+                      <div className="flex flex-wrap gap-3">
                         {workflowSteps[activeStep].decisions.map((decision, index) => (
-                          <span key={index} className="px-3 py-1 bg-gray-100 rounded-full text-sm">
+                          <span 
+                            key={index} 
+                            className="px-4 py-2 bg-gray-100 rounded-full text-sm font-medium"
+                          >
                             {decision}
                           </span>
                         ))}
@@ -287,12 +358,12 @@ const FeaturesPage: React.FC = () => {
                   
                   {workflowSteps[activeStep].actions && (
                     <div className="mb-6">
-                      <h4 className="font-semibold text-gray-900 mb-2">One-click Actions:</h4>
-                      <div className="flex flex-wrap gap-2">
+                      <h4 className="font-bold text-gray-900 mb-4">Available Actions:</h4>
+                      <div className="flex flex-wrap gap-3">
                         {workflowSteps[activeStep].actions.map((action, index) => (
                           <button 
                             key={index} 
-                            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors"
+                            className="px-5 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 shadow-md"
                           >
                             {action}
                           </button>
@@ -339,19 +410,19 @@ const FeaturesPage: React.FC = () => {
               </div>
               <div className="hidden md:block text-2xl">→</div>
               <div className="text-center p-4 bg-white/10 rounded-lg">
-                <span className="font-semibold">Document AI Processing</span>
+                <span className="font-semibold">AI Processing</span>
               </div>
               <div className="hidden md:block text-2xl">→</div>
               <div className="text-center p-4 bg-white/10 rounded-lg">
-                <span className="font-semibold">SOP/NLP Review</span>
+                <span className="font-semibold">Verification</span>
               </div>
               <div className="hidden md:block text-2xl">→</div>
               <div className="text-center p-4 bg-white/10 rounded-lg">
-                <span className="font-semibold">Dashboard Decision</span>
+                <span className="font-semibold">Decision Support</span>
               </div>
               <div className="hidden md:block text-2xl">→</div>
               <div className="text-center p-4 bg-white/10 rounded-lg">
-                <span className="font-semibold">CRM Update + Notifications</span>
+                <span className="font-semibold">Dashboard Review</span>
               </div>
             </div>
           </motion.div>

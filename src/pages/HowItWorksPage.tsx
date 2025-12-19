@@ -28,12 +28,24 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const HowItWorksPage: React.FC = () => {
-  const workflowSteps = [
+  interface WorkflowStep {
+    id: number;
+    title: string;
+    icon: React.ComponentType<any>;
+    description: string;
+    details: string[];
+    outcome: string;
+    riskLevels?: string[];
+    decisions?: string[];
+    actions?: string[];
+  }
+
+  const workflowSteps: WorkflowStep[] = [
     {
       id: 1,
-      title: "Document Upload & Data Extraction",
+      title: "Document Upload",
       icon: Upload,
-      description: "Universities receive academic + financial docs via student's CRM submission (Slate, Meritto, etc.)",
+      description: "Students submit applications with documents through your portal",
       details: [
         "Files supported: PDF, JPEG, DOCX, etc.",
         "OCR + NLP pipelines extract data such as:",
@@ -44,9 +56,9 @@ const HowItWorksPage: React.FC = () => {
     },
     {
       id: 2,
-      title: "Eligibility & Program Match Engine",
+      title: "Eligibility Check",
       icon: CheckCircle,
-      description: "AI reads student academic data (GPA, course history, IELTS, etc.)",
+      description: "System automatically checks student profile against university program requirements",
       details: [
         "Cross-checks with each program's specific requirements (e.g., course prerequisites, grade cutoffs)",
         "Uses rule-based + ML logic to calculate Eligibility Score (0–100)",
@@ -56,9 +68,9 @@ const HowItWorksPage: React.FC = () => {
     },
     {
       id: 3,
-      title: "AI Verification & Fraud Detection",
+      title: "AI Processing",
       icon: Shield,
-      description: "AI verifies documents against trusted data sources (DigiLocker, EduVerifi, AU10TIX, etc.)",
+      description: "Cut manual review work by 70% with intelligent AI automation that instantly verifies and extracts academic data.",
       details: [
         "Detects tampered or altered transcripts",
         "Identifies forged bank letters or certificates",
@@ -70,9 +82,9 @@ const HowItWorksPage: React.FC = () => {
     },
     {
       id: 4,
-      title: "AI Decision Layer (Smart Triage)",
+      title: "Verification",
       icon: BarChart3,
-      description: "Combines Eligibility Score + Verification Score to classify each application",
+      description: "Admissions staff review AI-verified insights and eligibility results in one dashboard.",
       details: [
         "✅ Approved (Ready for human review)",
         "⚠️ Needs Officer Cross-Check (Flagged or borderline)",
@@ -82,9 +94,9 @@ const HowItWorksPage: React.FC = () => {
     },
     {
       id: 5,
-      title: "Automation",
-      icon: Zap,
-      description: "Eliminate 70% of manual review work with intelligent automation",
+      title: "Decision Support",
+      icon: Award,
+      description: "AI-driven insights empower admissions teams to make faster, smarter decisions.",
       details: [
         "Automated document processing and data extraction",
         "AI-powered eligibility checking and program matching",
@@ -95,9 +107,9 @@ const HowItWorksPage: React.FC = () => {
     },
     {
       id: 6,
-      title: "Decision Support",
-      icon: Award,
-      description: "AI-powered insights empower staff to make confident decisions",
+      title: "Dashboard Review",
+      icon: Globe,
+      description: "Gain complete visibility into applications with real-time AI insights in one dashboard.",
       details: [
         "Comprehensive fraud risk scoring and verification",
         "Detailed eligibility analysis with program matching",
@@ -174,6 +186,7 @@ const HowItWorksPage: React.FC = () => {
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
 
   return (
     <div className="min-h-screen pt-16">
@@ -216,7 +229,7 @@ const HowItWorksPage: React.FC = () => {
       </section>
 
       {/* Step-by-Step Workflow */}
-      <section id="workflow" className="py-20 bg-gray-50">
+      <section id="workflow" className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -240,22 +253,36 @@ const HowItWorksPage: React.FC = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="bg-white p-8 rounded-xl shadow-lg"
+              className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100"
             >
-              <div className="space-y-8">
-                {workflowSteps.map((step) => {
+              <div className="space-y-6">
+                {workflowSteps.map((step, index) => {
                   const Icon = step.icon;
                   return (
                     <div 
                       key={step.id}
-                      className="flex items-start space-x-4 p-4 rounded-lg"
+                      className={`flex items-start space-x-4 p-6 rounded-xl transition-all duration-300 cursor-pointer ${
+                        activeStep === index 
+                          ? 'bg-blue-50 border-l-4 border-blue-600 shadow-sm' 
+                          : 'hover:bg-gray-50 border-l-4 border-transparent'
+                      }`}
+                      onClick={() => setActiveStep(index)}
                     >
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 bg-blue-100 text-blue-600">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                        activeStep === index 
+                          ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white' 
+                          : 'bg-gray-100 text-gray-600'
+                      }`}>
                         <Icon className="w-6 h-6" />
                       </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 mb-1">{step.title}</h3>
-                        <p className="text-gray-600 text-sm">{step.description}</p>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-bold text-gray-900 text-lg">{step.title}</h3>
+                          <span className="text-sm font-semibold text-blue-600 bg-blue-100 px-2 py-1 rounded-lg">
+                            Step {index + 1}
+                          </span>
+                        </div>
+                        <p className="text-gray-600 mt-2">{step.description}</p>
                       </div>
                     </div>
                   );
@@ -263,36 +290,109 @@ const HowItWorksPage: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Workflow Visual Diagram */}
+            {/* Workflow Details */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="bg-white p-8 rounded-xl shadow-lg"
+              className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100"
             >
-              <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Visual Workflow</h3>
-              <div className="bg-gradient-to-r from-blue-600 to-cyan-600 p-6 rounded-2xl text-white">
-                <div className="flex flex-col items-center space-y-6">
-                  {workflowSteps.map((step, index) => (
-                    <React.Fragment key={step.id}>
-                      <div className="text-center p-4 bg-white/10 rounded-lg w-full">
-                        <span className="font-semibold">{step.title}</span>
+              {workflowSteps[activeStep] && (
+                <div>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8">
+                    <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center text-white flex-shrink-0">
+                      {React.createElement(workflowSteps[activeStep].icon, { className: "w-8 h-8" })}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-sm font-semibold text-blue-600 bg-blue-100 px-2 py-1 rounded-lg">
+                          Step {activeStep + 1}
+                        </span>
                       </div>
-                      {index < workflowSteps.length - 1 && (
-                        <div className="text-2xl">↓</div>
-                      )}
-                    </React.Fragment>
-                  ))}
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        {workflowSteps[activeStep].title}
+                      </h3>
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-700 text-lg mb-8 leading-relaxed">
+                    {workflowSteps[activeStep].description}
+                  </p>
+                  
+                  {workflowSteps[activeStep].details && (
+                    <div className="mb-8">
+                      <h4 className="font-bold text-gray-900 text-lg mb-4">What's Included:</h4>
+                      <div className="space-y-3">
+                        {workflowSteps[activeStep].details.map((detail, index) => (
+                          <div key={index} className="flex items-start space-x-3">
+                            <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                            <p className="text-gray-700">{detail}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl mb-8 border border-blue-100">
+                    <h4 className="font-bold text-gray-900 mb-3 flex items-center">
+                      <CheckCircle className="w-5 h-5 text-blue-600 mr-2" />
+                      Key Outcome
+                    </h4>
+                    <p className="text-gray-700">
+                      {workflowSteps[activeStep].outcome}
+                    </p>
+                  </div>
+                  
+                  {workflowSteps[activeStep].riskLevels && (
+                    <div className="mb-8">
+                      <h4 className="font-bold text-gray-900 mb-4">Risk Assessment Levels:</h4>
+                      <div className="flex flex-wrap gap-3">
+                        {workflowSteps[activeStep].riskLevels.map((level, index) => (
+                          <span 
+                            key={index} 
+                            className="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-200"
+                          >
+                            {level}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {workflowSteps[activeStep].decisions && (
+                    <div className="mb-8">
+                      <h4 className="font-bold text-gray-900 mb-4">AI Decision Recommendations:</h4>
+                      <div className="flex flex-wrap gap-3">
+                        {workflowSteps[activeStep].decisions.map((decision, index) => (
+                          <span 
+                            key={index} 
+                            className="px-4 py-2 bg-gray-100 rounded-full text-sm font-medium"
+                          >
+                            {decision}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {workflowSteps[activeStep].actions && (
+                    <div className="mb-6">
+                      <h4 className="font-bold text-gray-900 mb-4">Available Actions:</h4>
+                      <div className="flex flex-wrap gap-3">
+                        {workflowSteps[activeStep].actions.map((action, index) => (
+                          <button 
+                            key={index} 
+                            className="px-5 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 shadow-md"
+                          >
+                            {action}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-              
-              <div className="mt-8 bg-blue-50 p-6 rounded-lg">
-                <h4 className="font-semibold text-gray-900 mb-3">Key Outcome</h4>
-                <p className="text-gray-700">
-                  UnivAegis automates eligibility, verification, and decisioning — delivering verified, ready-to-review applications directly inside your CRM.
-                </p>
-              </div>
+              )}
             </motion.div>
           </div>
         </div>
